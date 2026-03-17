@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // BrowserRouter add
 import { Toaster } from "react-hot-toast";
 import Chat from "./Components/Chat";
 import Signup from "./Components/Signup";
@@ -9,7 +9,7 @@ import NewPassword from "./Components/NewPassword";
 
 function App() {
   return (
-    <>
+    <Router> {/* BrowserRouter wrap start */}
       <Toaster
         position="top-right"
         reverseOrder={false}
@@ -28,7 +28,7 @@ function App() {
         <Route path="/otp-verify" element={<VerifyOTP />} />
         <Route path="/new-password" element={<NewPassword />} />
       </Routes>
-    </>
+    </Router> {/* BrowserRouter wrap end */}
   );
 }
 
