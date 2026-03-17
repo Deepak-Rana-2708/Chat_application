@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
-import { socket } from "../socket";
+import { socket } from "../Socket";
 import axios from "axios";
 import { encryptData, decryptData } from "../Encrypt/encrypt";
 

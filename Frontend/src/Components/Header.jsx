@@ -3,7 +3,7 @@ import { FaUserCircle, FaBell } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { socket } from "../socket";
+import { socket } from "../Socket";
 import { encryptData, decryptData } from "../Encrypt/encrypt";
 import { IoLogOutOutline } from "react-icons/io5";
 
