@@ -4,7 +4,7 @@ import Chat from "./Components/Chat";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import ForgotPassword from "./Components/ForgotPassword";
-import VerifyOTP from "./Components/VerifyOtp";
+import VerifyOTP from "./Components/VerifyOTP";
 import NewPassword from "./Components/NewPassword";
 
 function App() {
