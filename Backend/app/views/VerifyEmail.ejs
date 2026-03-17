@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Email Verification</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg,#5f72ff,#9b23ea);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* card */
+
+.container{
+    background:white;
+    padding:60px 50px;
+    width:420px;
+    border-radius:16px;
+    text-align:center;
+    box-shadow:0 25px 50px rgba(0,0,0,0.25);
+    transition:0.3s;
+}
+
+.container:hover{
+    transform: translateY(-6px);
+}
+
+/* icon */
+
+.icon{
+    font-size:60px;
+    margin-bottom:20px;
+    animation: pop 0.5s ease;
+}
+
+.success{
+    color:#28a745;
+}
+
+.error{
+    color:#ff4d4f;
+}
+
+/* message */
+
+.message{
+    color:#333;
+    font-size:23px;
+    line-height:1.6;
+    margin-top:10px;
+}
+
+/* button */
+
+.btn{
+    display:inline-block;
+    margin-top:35px;
+    padding:13px 28px;
+    background: linear-gradient(135deg,#5f72ff,#6a5af9);
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    font-size:15px;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform: translateY(-2px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* icon animation */
+
+@keyframes pop{
+    0%{
+        transform: scale(0);
+        opacity:0;
+    }
+    100%{
+        transform: scale(1);
+        opacity:1;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <% if(success){ %>
+        <div class="icon success">✔</div>
+    <% } else { %>
+        <div class="icon error">⚠</div>
+    <% } %>
+
+    <p class="message"><%= message %></p>
+
+    <% if(success){ %>
+        <a href="<%= frontendURL %>/login" class="btn">Go to Login</a>
+    <% } %>
+
+</div>
+
+</body>
+</html>
