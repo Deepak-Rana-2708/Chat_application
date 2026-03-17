@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Chat from "./Components/Chat";
 import Signup from "./Components/Signup";
-import Login from "./components/Login";
+import Login from "./Components/Login";
 import ForgotPassword from "./Components/ForgotPassword";
 import VerifyOTP from "./Components/VerifyOtp";
 import NewPassword from "./Components/NewPassword";
