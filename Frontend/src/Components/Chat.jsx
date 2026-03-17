@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import ChatWindow from "./ChatWindow";
-import { socket } from "../socket";
+import { socket } from "../Socket";
 
 const Chat = () => {
   const [selectedUser, setSelectedUser] = useState(null);
