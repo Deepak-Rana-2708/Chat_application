@@ -7,6 +7,7 @@ const sendEmail = async (to, subject, message) => {
             port: process.env.SMTP_PORT,
             secure: false,
             requireTLS: true,
+            family: 4,
             logger: true,
             debug: true,
             auth: {
