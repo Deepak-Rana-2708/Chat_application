@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const Contact = require("../Models/Contact");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const createUser = async (userData, id) => {
   try {
@@ -24,10 +24,10 @@ const createUser = async (userData, id) => {
     } catch (err) {
       console.log("Email Error : ", err);
     }
-    // const customer = await stripe.customers.create({
-    //   name: userData.name,
-    //   email: userData.email,
-    // });
+    const customer = await stripe.customers.create({
+      name: userData.name,
+      email: userData.email,
+    });
     const addedById = id ? id : null;
     const newUser = new User({
       ...userData,
