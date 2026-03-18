@@ -25,11 +25,7 @@ const sendEmail = async (to, subject, message) => {
         }
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Error sending email",
-            success: false,
-            error: error.message
-        })
+       throw new Error("Email sending failed: " + error.message);
     }
 }
 

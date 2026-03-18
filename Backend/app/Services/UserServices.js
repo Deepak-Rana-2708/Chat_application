@@ -4,7 +4,7 @@ const Notification = require("../Models/Notification");
 const { getIo, getOnlineUsers } = require("../Controller/Socket");
 const bcrypt = require("bcrypt");
 const Contact = require("../Models/Contact");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
@@ -19,7 +19,11 @@ const createUser = async (userData, id) => {
       throw new Error("User already exists with this email");
     }
     const hashPass = await bcrypt.hash(password, 10);
-    await Email.EmailVerification({ email: userData.email });
+    try {
+      await Email.EmailVerification({ email: userData.email });
+    } catch (err) {
+      console.log("Email Error : ", err);
+    }
     const customer = await stripe.customers.create({
       name: userData.name,
       email: userData.email,
@@ -34,12 +38,15 @@ const createUser = async (userData, id) => {
     if (!newUser) {
       throw new Error("Error creating user");
     }
-   const user = await newUser.save();
+    const user = await newUser.save();
     if (id) {
       await Contact.create({
-              participants: [new mongoose.Types.ObjectId(user._id), new mongoose.Types.ObjectId(id)],
-              status: "accepted"
-          });
+        participants: [
+          new mongoose.Types.ObjectId(user._id),
+          new mongoose.Types.ObjectId(id),
+        ],
+        status: "accepted",
+      });
     }
     return user;
   } catch (error) {
@@ -166,13 +173,17 @@ const forgotPassword = async (data) => {
     const otpExpiry = Date.now() + 5 * 60 * 1000;
 
     await Email.OTPEmail({ email: data, otp: otp });
-    const Info = await User.findByIdAndUpdate(Existing._id, { otp: otp,otpExpiry: otpExpiry }, { returnDocument: "after" });
+    const Info = await User.findByIdAndUpdate(
+      Existing._id,
+      { otp: otp, otpExpiry: otpExpiry },
+      { returnDocument: "after" },
+    );
     if (!Info) {
-      throw new Error('Something Went Wrong!');
+      throw new Error("Something Went Wrong!");
     }
     return Info;
   } catch (error) {
     return error;
   }
-}
-module.exports = { createUser, verifyEmail, login, inviteUser,forgotPassword };
+};
+module.exports = { createUser, verifyEmail, login, inviteUser, forgotPassword };
