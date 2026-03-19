@@ -88,8 +88,10 @@ const Sidebar = ({ onSelectUser }) => {
                   ...styles.userItem,
                   background:
                     selectedUser?._id === user.allUser._id
-                      ? "#e5e7eb"
+                      ? "#6366f1"
                       : "transparent",
+                  color:
+                    selectedUser?._id === user.allUser._id ? "white" : "black",
                 }}
                 onClick={() => handleUserClick(user)}
               >
@@ -140,14 +142,14 @@ const styles = {
     flexDirection: "column",
   },
 
- title: {
-  padding: "18px",
-  fontSize: "18px",
-  fontWeight: "600",
-  borderBottom: "1px solid rgba(0,0,0,0.08)",
-  background: "rgba(255,255,255,0.4)",
-  backdropFilter: "blur(6px)",
-},
+  title: {
+    padding: "18px",
+    fontSize: "18px",
+    fontWeight: "600",
+    borderBottom: "1px solid rgba(0,0,0,0.08)",
+    background: "rgba(255,255,255,0.4)",
+    backdropFilter: "blur(6px)",
+  },
 
   userList: {
     flex: 1,
@@ -159,30 +161,30 @@ const styles = {
     gap: "6px", // gap between users
   },
 
- userItem: {
-  display: "flex",
-  alignItems: "center",
-  gap: "12px",
-  padding: "12px 18px",
-  cursor: "pointer",
-  transition: "0.25s",
-  borderRadius: "10px",
-},
+  userItem: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    padding: "12px 18px",
+    cursor: "pointer",
+    transition: "0.25s",
+    borderRadius: "10px",
+  },
 
-avatar: {
-  width: "38px",
-  height: "38px",
-  borderRadius: "50%",
-  background: "#4f46e5",
-  color: "white",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  fontWeight: "600",
-  fontSize: "16px",
-  flexShrink: 0,
-  boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-},
+  avatar: {
+    width: "38px",
+    height: "38px",
+    borderRadius: "50%",
+    background: "#4f46e5",
+    color: "white",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: "600",
+    fontSize: "16px",
+    flexShrink: 0,
+    boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+  },
 
   userName: {
     fontSize: "15px",

@@ -4,6 +4,7 @@ import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
 import { socket } from "../Socket";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 import { encryptData, decryptData } from "../Encrypt/encrypt";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -64,11 +65,18 @@ const ChatWindow = ({ selectedUser }) => {
       ...prev,
       { text, sender: "me", messageType: msgType },
     ]);
-    socket.emit("private_message", {
-      toUserId: selectedUser._id,
-      message: text,
-      msgType,
-    });
+    if (selectedUser.isAI) {
+      socket.emit("ai_msg", {
+        toUserId: selectedUser._id,
+        message: text,
+      });
+    } else {
+      socket.emit("private_message", {
+        toUserId: selectedUser._id,
+        message: text,
+        msgType,
+      });
+    }
   };
 
   if (!selectedUser) {
@@ -95,7 +103,9 @@ const ChatWindow = ({ selectedUser }) => {
             key={index}
             style={msg.sender === "me" ? styles.sentMsg : styles.receivedMsg}
           >
-            {msg.messageType === "text" && msg.text}
+            {msg.messageType === "text" && (
+              <ReactMarkdown>{msg.text}</ReactMarkdown>
+            )}
             {msg.messageType === "image" && (
               <img
                 src={msg.text}
@@ -129,7 +139,7 @@ const styles = {
     flexDirection: "column",
     height: "100vh",
     marginLeft: window.innerWidth > 768 ? "280px" : "0px",
-    marginTop: "0px",
+    marginTop: "60px",
     overflow: "hidden",
     background: "#f9fafb",
     transition: "margin-left 0.3s ease",
@@ -188,7 +198,7 @@ const styles = {
     background: "#ffffff",
     padding: "30px 40px",
     borderRadius: "16px",
-   boxShadow: "0 12px 40px rgba(0,0,0,0.18)",
+    boxShadow: "0 12px 40px rgba(0,0,0,0.18)",
   },
 
   noChatIcon: {

@@ -98,12 +98,23 @@ const login = async (body) => {
     if (!user.isVerified) {
       throw new Error("Email is not verified");
     }
+    const data = await User.findById(user._id).select("-password");
+    const AiExist = await User.findOne({ email: 'ai@system.com', isDeleted: false });
+      const alreadyConnected = await Contact.findOne({
+        participants: { $all: [AiExist.id, data.id] },
+        status: "accepted",
+      });
+      if (!alreadyConnected) {
+        await Contact.create({
+          participants: [AiExist._id, data._id],
+          status: "accepted",
+        });
+      }
     const token = jwt.sign(
       { id: user._id, email: user.email, name: user.name },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "1d" },
     );
-    const data = await User.findById(user._id).select("-password");
     return { token, data };
   } catch (error) {
     throw new Error(error.message);
@@ -137,7 +148,6 @@ const inviteUser = async (email, id, name) => {
 
       const io = getIo();
       const onlineUsers = getOnlineUsers();
-      console.log("checking online Users : ", onlineUsers);
       const receiverSocketId = onlineUsers[existing._id.toString()];
       if (receiverSocketId) {
         io.to(receiverSocketId).emit("new_invite_notification", {

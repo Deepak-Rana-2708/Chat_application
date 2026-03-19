@@ -11,6 +11,7 @@ const fileRoute = require("./app/Routes/upload");
 const {socketHandler} = require("./app/Controller/Socket");
 const auth = require("./app/middlemare/auth");
 const encryptMiddleware = require('./app/middlemare/cryptoMiddleware');
+const SeedAIUser = require("./app/utils/Seed");
 
 const app = express();
 const server = http.createServer(app);
@@ -35,7 +36,8 @@ app.use("/api/v1/file", auth, fileRoute);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "app/views"));
-server.listen(process.env.PORT, (err) => {
+server.listen(process.env.PORT, async (err) => {
   if (err) console.error("Error starting server:", err);
   console.log(`Server is running on port ${process.env.PORT}`);
+  await SeedAIUser();
 });

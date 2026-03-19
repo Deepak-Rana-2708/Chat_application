@@ -25,15 +25,15 @@ const ChatHeader = ({ selectedUser }) => {
 
 const styles = {
 
-  chatHeader: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-    padding: "14px 20px",
-    borderBottom: "2px solid black",
-    background: "white",
-    flexShrink: 0   // important
-  },
+chatHeader: {
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  padding: "14px 20px",
+  background: "#f9fafb",
+  borderBottom: "1px solid #e5e7eb",
+  flexShrink: 0
+},
 
   headerName: {
     fontSize: "16px",

@@ -20,7 +20,6 @@ const userSchema = new mongoose.Schema({
     },
     customerId: {
         type: String,
-        required: true
     },
     profileImage: {
         type: String,
@@ -38,6 +37,10 @@ const userSchema = new mongoose.Schema({
     isDeleted: {
         type: Boolean,
         default: false
+    },
+    isAI: {
+        type: Boolean,
+        default: false,
     },
     status: {
         type: String,
