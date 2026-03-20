@@ -3,6 +3,7 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { IoSend } from "react-icons/io5";
 import { MdImage } from "react-icons/md";
 import EmojiPicker from "emoji-picker-react";
+import { encryptData, decryptData } from "../Encrypt/encrypt";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -12,37 +13,41 @@ const ChatInput = ({ onSendMessage }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-const handleSend = async () => {
-  if (!message.trim() && !selectedImage) return;
+  const handleSend = async () => {
+    if (!message.trim() && !selectedImage) return;
 
-  if (selectedImage) {
-    const formData = new FormData();
-    formData.append("file", selectedImage);
+    if (selectedImage) {
+      const formData = new FormData();
+      formData.append("file", selectedImage);
 
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.post(`${API_URL}/api/v1/file/upload`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.post(
+          `${API_URL}/api/v1/file/upload`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          },
+        );
 
-      // backend se mil gaya file path
-      const filePath = res.data.filePath;
-      const fileUrl = `${API_URL}/${filePath.replace(/\\/g, "/")}`;
-
-      onSendMessage(fileUrl, "image"); // msgType = image
-      setSelectedImage(null);
-    } catch (err) {
-      console.log("Image upload error", err);
+        const decryptedResponse = decryptData(res.data);
+        const filePath = decryptedResponse.filePath;
+        const fileUrl = `${API_URL}/${filePath.replace(/\\/g, "/")}`;
+        console.log("file path : ", fileUrl);
+        onSendMessage(fileUrl, "image"); // msgType = image
+        setSelectedImage(null);
+      } catch (err) {
+        console.log("Image upload error", err);
+      }
+    } else {
+      onSendMessage(message, "text"); // msgType = text
     }
-  } else {
-    onSendMessage(message, "text"); // msgType = text
-  }
 
-  setMessage("");
-};
+    setMessage("");
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") handleSend();
@@ -130,14 +135,14 @@ const styles = {
     background: "white",
     flexShrink: 0,
     overflow: "visible",
-    position: "relative"
+    position: "relative",
   },
 
   inputArea: {
     display: "flex",
     alignItems: "center",
     gap: "10px",
-     position: "relative"
+    position: "relative",
   },
 
   iconBtn: {
@@ -164,11 +169,11 @@ const styles = {
   },
 
   emojiPicker: {
-  position: "absolute",
-  bottom: "50px",       // input ke thoda upar
-  left: "0",            // input ke start se align
-  zIndex: 2000,         // header ke upar ke liye
-},
+    position: "absolute",
+    bottom: "50px", // input ke thoda upar
+    left: "0", // input ke start se align
+    zIndex: 2000, // header ke upar ke liye
+  },
 
   preview: {
     display: "flex",

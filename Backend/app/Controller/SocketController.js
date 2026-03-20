@@ -26,9 +26,8 @@ const getAllMessages = async (req, res) => {
     if (search) {
       query.message = { $regex: search, $options: "i" };
     }
-    console.log("query : ", query);
     const msg = await messages.find(query).sort({ createdAt: 1 });
-    console.log("messages : ", msg);
+    
     return res.status(200).json({
       message: "Messages retrieved successfully",
       success: true,
@@ -93,7 +92,7 @@ const getAllUsers = async (req, res) => {
     ];
 
     const users = await Contact.aggregate(pipelines);
-    console.log("users : ", users);
+    
     return res.status(200).json({
       message: "Users retrieved successfully",
       success: true,
