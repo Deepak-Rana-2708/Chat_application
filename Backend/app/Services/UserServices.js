@@ -117,6 +117,7 @@ const login = async (body) => {
     );
     return { token, data };
   } catch (error) {
+    console.error("Error : ", error);
     throw new Error(error.message);
   }
 };
