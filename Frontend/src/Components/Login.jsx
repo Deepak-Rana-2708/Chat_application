@@ -30,7 +30,7 @@ function Login() {
         `${API_URL}/api/v1/user/login`,
         encryptedData,
       );
-
+      console.log("Api : ", API_URL);
       const data = decryptData(res.data);
 
       if (data.success) {
