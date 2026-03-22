@@ -73,17 +73,25 @@ const socketHandler = (io) => {
         return console.error("Error Ai Chat: ", error);
       }
     });
-    socket.on("message_read", async (data) => {
+    socket.on("mark_as_read", async (data) => {
       const { receiverId, senderId } = data;
-      await Message.updateMany(
+      const status = await Message.updateMany(
         {
           receiver: receiverId,
           sender: senderId,
-          status: "sent",
+          status:  { $in: ["sent", "delivered"] },
           isDeleted: false,
         },
         { status: "read" },
       );
+      const toSocketId = onlineUsers[senderId];
+      if (toSocketId) {
+        io.to(toSocketId).emit("message_read", {
+          receiverId,
+          senderId,
+          status: "read",
+        });
+      }
     });
     socket.on("disconnect", () => {
       console.log("A user Disconnected: ", socket.id);
